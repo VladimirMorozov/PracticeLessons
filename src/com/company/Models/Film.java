@@ -14,6 +14,7 @@ public class Film implements Serializable
     private Calendar dayOfRent;
     private long daysRent;
 
+    //ничто не мешает создать несуществующий тип фильма
     public Film(String filmName, String filmType, boolean isRented) {
         this.filmName = filmName;
         this.filmType = filmType;
