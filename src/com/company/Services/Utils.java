@@ -15,6 +15,7 @@ public class Utils {
         return keyboard;
     }
 
+    //вот вызову я откуда-то этот метод, внутрь не посмотрю и получу странное поведение.
     public static void newLine() {
         for(int i = 0; i < 5; i++)
         {
