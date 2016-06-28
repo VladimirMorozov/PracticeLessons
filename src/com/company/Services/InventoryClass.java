@@ -10,6 +10,7 @@ import com.sun.corba.se.impl.javax.rmi.CORBA.Util; //этот импорт ме�
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+//Class то зачем?
 public class InventoryClass implements Serializable {
 
     //имя переменной непонятно
