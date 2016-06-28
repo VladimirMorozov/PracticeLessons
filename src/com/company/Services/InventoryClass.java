@@ -5,18 +5,20 @@ import java.util.ArrayList;
 
 import com.company.Constants.Constant;
 import com.company.Models.Film;
-import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util; //этот импорт меня озадачил
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class InventoryClass implements Serializable {
 
+    //имя переменной непонятно
     public static ArrayList<String> inventoryList = new ArrayList<>();
     public static ArrayList<Film>  listOfFilms = new ArrayList<>();
 
-
-    private static  Calendar calendar = Calendar.getInstance();
+    //тут некоторые поля используются чтобы неявно вернуть результат метода. решение не очень.
+    //в реальных приложениях многие объекты еще и из нескольких потоков используются, там даже и не сделать так.
+    private static  Calendar calendar = Calendar.getInstance();//имя переменной
     private static  Calendar calendarReturn = new GregorianCalendar();
     private static int bonusPoints = 0;
     private static  long total;
@@ -34,7 +36,8 @@ public class InventoryClass implements Serializable {
         inventoryList.add("Rent a film");
         inventoryList.add("Return films");
         inventoryList.add("Exit");
-
+        
+        //имя переменной
         boolean flag = false;
         while(!flag)
         {
@@ -45,7 +48,8 @@ public class InventoryClass implements Serializable {
 
             System.out.println("Plese enter numbers between 1 to 8");
             String keyboard = Utils.readLine();
-
+            
+            //имя переменной
             boolean bool = Utils.isNumber(keyboard);
 
             if(bool)
@@ -66,7 +70,7 @@ public class InventoryClass implements Serializable {
         Utils.newLine();
         System.out.print("Enter film name: ");
         String filmName = Utils.readLine();
-        boolean flagType = true;
+        boolean flagType = true;// имя переменной (надоело писать, остальные сам переименовывай)
 
         while(flagType == true) {
             System.out.print("\nEnter film type: ");
@@ -90,12 +94,13 @@ public class InventoryClass implements Serializable {
         }
 
     }
-
+    
     public static  void removeFilm() {
         System.out.println("Enter film name");
         String keyboard = Utils.readLine();
 
-
+        // советую 
+        // for (Film film : listOfFilms) {
         for(int i = 0; i < listOfFilms.size(); i++){
             if(listOfFilms.get(i).getFilmName().toLowerCase().trim().equals(keyboard.toLowerCase().trim())){
                 System.out.print("You want to remove \n"+ listOfFilms.get(i) +" \nyes/no: ");
@@ -122,6 +127,8 @@ public class InventoryClass implements Serializable {
             if(listOfFilms.get(i).getFilmName().toLowerCase().trim().equals(keyboard.toLowerCase().trim())){
                 System.out.println("Enter new film type: ");
                 keyboard = Utils.readLine();
+                
+                //== true кстати лишнее
                 if(Utils.checkFilmType(keyboard) == true){
                     listOfFilms.get(i).setFilmType(keyboard);
                     System.out.println("Film type has been changed");
@@ -140,9 +147,10 @@ public class InventoryClass implements Serializable {
         Utils.readLine();
     }
 
+    //что такое ава непонятно. не сокращай. да, я могу догадаться, но код не должен быть загадкой.
     public static void listAvaFilms(){
         for(Film film : listOfFilms){
-            if(!film.getIsRented()){
+            if(!film.getIsRented()){ //геттеры на булины обычно называют просто isRented()
                 System.out.println(film);
             }
         }
@@ -150,6 +158,7 @@ public class InventoryClass implements Serializable {
         Utils.readLine();
     }
 
+    //метод длинный, много вложенности, лучше вынести из него подметоды.
     public static void rentFilm() {
         System.out.println("Enter film name you want to rent");
         String keyboard = Utils.readLine();
@@ -160,6 +169,8 @@ public class InventoryClass implements Serializable {
                 keyboard = Utils.readLine();
                 if(checkAns(keyboard)) {
                     listOfFilms.get(i).setIsRented(true);
+                    
+                    // ну т.е. если программа поработает пару дней, она так и будет использовать момент запуска?
                     listOfFilms.get(i).setDayOfRent(calendar);
 
                     System.out.print("Enter rent days: ");
@@ -188,6 +199,7 @@ public class InventoryClass implements Serializable {
         }
     }
 
+    //название метода должно содержать глагол как правило. displayRentedFilms() или типа того
     public static void rentedFilms(){
         for(Film film : listOfFilms){
             if(film.getIsRented()){
@@ -245,6 +257,7 @@ public class InventoryClass implements Serializable {
 
     }
 
+    //Ans? cA?
     private static boolean checkAns(String cA){
         if(cA.toLowerCase().trim().equals("yes") || cA.toLowerCase().trim().equals("y")){
             return true;
@@ -275,6 +288,7 @@ public class InventoryClass implements Serializable {
                 if(days > 3){
                     return Constant.BASIC_PRICE + ((days - 3) * Constant.BASIC_PRICE);
                 }
+                //зачем это условие?
                 if(days == 1){
                     return Constant.BASIC_PRICE;
                 }
@@ -285,6 +299,8 @@ public class InventoryClass implements Serializable {
         return 0;
     }
 
+    //непонятно что это за i такое.
+    //ты здесь сеттишь бонус поинты. зачем ты их еще возвращаешь и сеттишь снова?
     private static int addBonus(int i){
         if(listOfFilms.get(i).getFilmType().toLowerCase().trim().equals("new release")){
             bonusPoints = bonusPoints + 2;
@@ -295,6 +311,9 @@ public class InventoryClass implements Serializable {
         return bonusPoints;
     }
 
+    // что делает метод? по названию не ясно.
+    // в требованиях написано:
+    // The customers say when renting for how many days they want to rent for and pay up front
     private static boolean checkDateOption(String day, String month, String year){
         System.out.print("Enter day of returning: ");
         day=Utils.readLine();
@@ -318,7 +337,8 @@ public class InventoryClass implements Serializable {
             Utils.newLine();
         }
         else
-        {
+        {   // * можно легко перепутать тут в коде что каждая цифра значит, а если надо будет
+            // поменять местами или добавить можно легко на багу наскочить
             switch (keyboard)
             {
                 case "1":
@@ -355,28 +375,37 @@ public class InventoryClass implements Serializable {
                     System.exit(0);
                     break;
                 default:
+                    // * судя по предыдущему условию это никогда не выполнится?
                     System.out.println("");
             }
 
         }
     }
 
+    //computeReceipt. что значит days? на сколько взяли или сколько прошло?
     private static void reciept(Film film, long days){
+        //беру вечером в понедельник, возвращаю утром во вторник. ничего не плачу. ну норм. 
+        //ты не продумал, а бизнес 2 дней не досчитался. если так люди будут брать, то конец им.
         difference = calendarReturn.getTimeInMillis() - film.getDayOfRent().getTimeInMillis();
+        //магическое число
         days = difference / 72000000;
 
         System.out.println("Film rented: "+ film.getDayOfRent().getTime()+ ";  Film returned: "+ calendarReturn.getTime());
         System.out.println();
+        
+        //calculateTotal вызывается с разными параметрами?
         System.out.println(film + " "+ film.getDaysRent() +" days "+ calculateTotal(film.getDaysRent(), film) +" EUR");
         total = total + calculateTotal(days,film);
 
-        if(days>film.getDaysRent()){
+        if(days>film.getDaysRent()){ //вот тут названия в тупик ставят. где какие дни? не ясно.
+            //просто неправильно посчитано. требование не выполнено
             totalExtra = totalExtra + calculateTotal(days-film.getDaysRent(), film);
             System.out.println("Extra days "+ (days-film.getDaysRent()));
             System.out.println("Total extra: "+ totalExtra + " EUR");
         }
     }
 
+    //а как несколько дней оплатить?
     private static void bonusPayment(Film film){
         if(bonusPoints >= 25){
             System.out.println("Would you like to pay by bonus yes/no?");
@@ -400,6 +429,7 @@ public class InventoryClass implements Serializable {
 
     }
 
+    //а вот требования сохранять не было и это было четко прописано. но да ладно.
     private static void serializeFilms(){
 
         try
