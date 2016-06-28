@@ -269,7 +269,7 @@ public class InventoryClass implements Serializable {
     }
 
     private static long calculateTotal(long days, Film film){
-
+            // в ооп решении расчитываю что внешнего иф не будет
             if(film.getFilmType().toLowerCase().trim().equals("new release")){
                 return Constant.PREMIUM_PRICE * days;
             }
