@@ -1,6 +1,6 @@
 package com.company.Constants;
 
-
+// зачем имплементить сериалайзабл?
 import java.io.Serializable;
 
 public class Constant implements Serializable{
